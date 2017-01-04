@@ -5,12 +5,14 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter.controllers', []);
 angular.module('starter.services', []);
+angular.module('starter.filters', []);
 
 angular.module('starter', [
-    'ionic', 'starter.controllers', 'starter.services', 'angular-oauth2', 'ngResource'
+    'ionic', 'starter.controllers', 'starter.services', 'starter.filters',
+    'angular-oauth2', 'ngResource', 'ngCordova'
 ])
     .constant('appConfig', {
-        baseUrl: 'http://localhost:8000'
+        baseUrl: 'localhost:8000'
     })
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -58,7 +60,19 @@ angular.module('starter', [
             .state('client', {
                 abstract: true,
                 url: '/client',
-                template: '<ion-nav-view/>'
+                templateUrl: 'templates/client/menu.html',
+                controller: 'ClientMenuCtrl'
+
+            })
+            .state('client.order', {
+                url: '/order',
+                templateUrl: 'templates/client/order.html',
+                controller: 'ClientOrderCtrl'
+            })
+            .state('client.view_order', {
+                url: '/view_order/:id',
+                templateUrl: 'templates/client/view_order.html',
+                controller: 'ClientViewOrderCtrl'
             })
             .state('client.checkout', {
                 cache: false,
@@ -71,15 +85,34 @@ angular.module('starter', [
                 templateUrl: 'templates/client/checkout_item_detail.html',
                 controller: 'ClientCheckoutDetailCtrl'
             })
+            .state('client.checkout_successful',{
+                cache: false,
+                url: '/checkout/successful',
+                templateUrl: 'templates/client/checkout_successful.html',
+                controller: 'ClientCheckoutSuccessful'
+            })
             .state('client.view_products', {
                 url: '/view_products',
                 templateUrl: 'templates/client/view_products.html',
                 controller: 'ClientViewProductCtrl'
             })
+            .state('deliveryman', {
+                abstract: true,
+                url: '/deliveryman',
+                templateUrl: 'templates/deliveryman/menu.html',
+                controller: 'DeliverymanMenuCtrl'
+            })
+            .state('deliveryman.order',{
+                url:'/order',
+                templateUrl: 'templates/deliveryman/order.html',
+                controller: 'DeliverymanOrderCtrl'
+            })
+            .state ('deliveryman.view_order', {
+                cache:false,
+                url:'/view_order/:id',
+                templateUrl: 'templates/deliveryman/view_order.html',
+                controller: 'DeliverymanViewOrderCtrl'
+            })
 
-
-        //$urlRouterProvider.otherwise('/')
+        $urlRouterProvider.otherwise('/login')
     })
-    .service('cart', function () {
-        this.items = [];
-    });
