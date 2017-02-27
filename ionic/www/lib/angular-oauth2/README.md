@@ -2,6 +2,18 @@
 
 AngularJS OAuth2 authentication module written in ES6.
 
+Currently `angular-oauth2` only uses the [Resouce Owner Password Credential Grant](https://tools.ietf.org/html/rfc6749#section-4.3), i.e, using a credentials combination (username, password), we'll request an access token (using `grant_type='password'`) which, in case of success, will typically return a response such as:
+
+```
+{
+  "access_token": "foobar",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "foobiz"
+}
+```
+Internally we'll automatically store it as a cookie and it will be used in every request adding an `Authorization` header: `Authorization: 'Bearer foobar'`.
+
 ---
 
 ## Installation
@@ -31,12 +43,25 @@ If you're using `bower` they will be automatically downloaded upon installing th
 <script src="<VENDOR_FOLDER>/angular-oauth2/dist/angular-oauth2.min.js"></script>
 ```
 
-###### 3. Configure `OAuth` (required) and `OAuthToken` (optional):
+###### 3. Configure `OAuth` (optional) and `OAuthToken` (optional):
 
 ```js
 angular.module('myApp', ['angular-oauth2'])
   .config(['OAuthProvider', function(OAuthProvider) {
     OAuthProvider.configure({
+      baseUrl: 'https://api.website.com',
+      clientId: 'CLIENT_ID',
+      clientSecret: 'CLIENT_SECRET' // optional
+    });
+  }]);
+```
+
+You can also configure `OAuth` service in a `.run()`block, in case you retrieve the Oauth server configuration from a ajax request.
+
+```js
+angular.module('myApp', ['angular-oauth2'])
+  .run(['OAuth', function(OAuth) {
+    OAuth.configure({
       baseUrl: 'https://api.website.com',
       clientId: 'CLIENT_ID',
       clientSecret: 'CLIENT_SECRET' // optional
@@ -84,6 +109,18 @@ OAuthProvider.configure({
 
 #### OAuth
 
+Update configuration defaults
+
+```js
+OAuth.configure({
+  baseUrl: null,
+  clientId: null,
+  clientSecret: null,
+  grantPath: '/oauth2/token',
+  revokePath: '/oauth2/revoke'
+});
+
+```
 Check authentication status:
 
 ```js

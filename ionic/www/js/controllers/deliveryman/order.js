@@ -2,7 +2,7 @@ angular.module('starter.controllers')
     .controller('DeliverymanOrderCtrl', [
         '$scope','$state','$ionicLoading','DeliverymanOrder',
         function($scope, $state, $ionicLoading, DeliverymanOrder){
-            $scope.orders = [];
+            $scope.items = [];
 
             $ionicLoading.show({
                 template: 'Carregando...'
@@ -10,7 +10,7 @@ angular.module('starter.controllers')
 
             $scope.doRefresh = function(){
                 getOrders().then(function (data){
-                    $scope.orders = data.data;
+                    $scope.items = data.data;
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function (dataError) {
                     $scope.$broadcast('scroll.refreshComplete');
@@ -30,7 +30,7 @@ angular.module('starter.controllers')
             };
 
             getOrders().then(function (data){
-                $scope.orders = data.data;
+                $scope.items = data.data;
                 $ionicLoading.hide();
             }, function (dataError) {
                 $ionicLoading.hide();

@@ -13,6 +13,7 @@ use CodeDelivery\Models\Order;
 use CodeDelivery\Repositories\CupomRepository;
 use CodeDelivery\Repositories\OrderRepository;
 use CodeDelivery\Repositories\ProductRepository;
+use Dmitrovskiy\IonicPush\PushProcessor;
 use Illuminate\Support\Facades\DB;
 
 class OrderService
@@ -29,16 +30,29 @@ class OrderService
      * @var ProductRepository
      */
     private $productRepository;
+    /**
+     * @var PushProcessor
+     */
+    private $pushProcessor;
 
+    /**
+     * OrderService constructor.
+     * @param OrderRepository $orderRepository
+     * @param CupomRepository $cupomRepository
+     * @param ProductRepository $productRepository
+     * @param PushProcessor $pushProcessor
+     */
     public function __construct(
         OrderRepository $orderRepository,
         CupomRepository $cupomRepository,
-        ProductRepository $productRepository)
+        ProductRepository $productRepository,
+        PushProcessor $pushProcessor)
     {
 
         $this->orderRepository = $orderRepository;
         $this->cupomRepository = $cupomRepository;
         $this->productRepository = $productRepository;
+        $this->pushProcessor = $pushProcessor;
     }
 
     public function create(array $data)
@@ -82,12 +96,23 @@ class OrderService
     public function updateStatus($id, $idDeliveryman, $status)
     {
         $order = $this->orderRepository->getByIdAndDeliveryman($id, $idDeliveryman);
-        if($order instanceof Order)
-        {
-            $order->status = $status;
-            $order->save();
-            return $order;
+        $order->status = $status;
+        switch ((int)$status){
+            case 1:
+                if(!$order->hash){
+                    $order->hash = md5((new \DateTime())->getTimestamp());
+                }
+                $order->save();
+                break;
+            case 2:
+                $user = $order->client->user;
+                $order->save();
+                $this->pushProcessor->notify([$user->device_token],[
+                    'message' => "Seu pedido {$order->id} acabou de ser entregue"
+                ]);
+                break;
         }
-        return false;
+        return $order;
+
     }
 }

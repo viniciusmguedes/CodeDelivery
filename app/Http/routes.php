@@ -57,10 +57,11 @@ route::group(['prefix'=>'customer','middleware' =>'auth.checkrole:client', 'as'=
 
 });
 Route::group(['middleware' => 'cors'], function () {
-    Route::post('oauth/access_token', function () {
+    Route::post('oauth/access_token', function ()
+    {
         return Response::json(Authorizer::issueAccessToken());
-    });
-    Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], function () {
+        });
+        Route::group(['prefix' => 'api', 'middleware' => 'oauth', 'as' => 'api.'], function () {
 
         Route::group(['prefix' => 'client', 'middleware' => 'oauth.checkrole:client', 'as' => 'client.'], function () {
             Route::resource('order',
@@ -77,9 +78,13 @@ Route::group(['middleware' => 'cors'], function () {
             Route::patch('order/{id}/update-status', [
                 'uses' => 'Api\Deliveryman\DeliverymanCheckoutController@updateStatus',
                 'as' => 'orders.update_status']);
+            Route::post('order/{id}/geo', [
+                'as' => 'orders.geo', 'uses' => 'Api\Deliveryman\DeliverymanCheckoutController@geo'
+            ]);
         });
-        Route::get('authenticated', 'Api\UserController@authenticated');
-        Route::get('cupom/{code}', 'Api\CupomController@show');
+            Route::get('authenticated', 'Api\UserController@authenticated');
+            Route::patch('device_token', 'Api\UserController@updateDeviceToken');
+            Route::get('cupom/{code}', 'Api\CupomController@show');
     });
 });
 

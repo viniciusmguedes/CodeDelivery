@@ -11,7 +11,7 @@ declare module ng.ui {
         templateUrl?: any; // string || () => string
         templateProvider?: any; // () => string || IPromise<string>
         controller?: any;
-        controllerAs?: string;
+        controllerAs?: string;    
         controllerProvider?: any;
         resolve?: {};
         url?: string;
@@ -83,7 +83,7 @@ declare module ng.ui {
         transitionTo(state: string, params?: {}, updateLocation?: boolean): void;
         transitionTo(state: string, params?: {}, options?: IStateOptions): void;
         includes(state: string, params?: {}): boolean;
-        is(state: string, params?: {}): boolean;
+        is(state:string, params?: {}): boolean;
         is(state: IState, params?: {}): boolean;
         href(state: IState, params?: {}, options?: IHrefOptions): string;
         href(state: string, params?: {}, options?: IHrefOptions): string;

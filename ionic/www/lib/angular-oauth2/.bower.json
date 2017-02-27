@@ -1,6 +1,6 @@
 {
   "name": "angular-oauth2",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "AngularJS OAuth2",
   "main": "./dist/angular-oauth2.js",
   "authors": [
@@ -27,11 +27,11 @@
     "angular-cookies": "^1.4.0",
     "query-string": "^1.0.0"
   },
-  "_release": "4.0.0",
+  "_release": "4.1.0",
   "_resolution": {
     "type": "version",
-    "tag": "4.0.0",
-    "commit": "49341f2fb91860da5c2ab9a052ec36dee18d74b6"
+    "tag": "4.1.0",
+    "commit": "4109fb8dfe21284815e811ec0b593d9b2918207c"
   },
   "_source": "https://github.com/seegno/angular-oauth2.git",
   "_target": "^4.0.0",

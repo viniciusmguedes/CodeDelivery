@@ -9,7 +9,7 @@ angular.module('starter.services')
                 url: appConfig.baseUrl+'/api/authenticated'
             },
             updateDeviceToken: {
-                method: "PATCH",
+                method: 'PATCH',
                 url: appConfig.baseUrl+'/api/device_token'
             }
         });

@@ -1,3 +1,4 @@
+
 /**
  * Module dependencies.
  */
@@ -10,13 +11,13 @@ import oauthInterceptor from './interceptors/oauth-interceptor';
 import ngCookies from 'angular-cookies';
 
 var ngModule = angular.module('angular-oauth2', [
-        ngCookies
-    ])
-        .config(oauthConfig)
-        .factory('oauthInterceptor', oauthInterceptor)
-        .provider('OAuth', OAuthProvider)
-        .provider('OAuthToken', OAuthTokenProvider)
-    ;
+    ngCookies
+  ])
+  .config(oauthConfig)
+  .factory('oauthInterceptor', oauthInterceptor)
+  .provider('OAuth', OAuthProvider)
+  .provider('OAuthToken', OAuthTokenProvider)
+;
 
 /**
  * Export `angular-oauth2`.

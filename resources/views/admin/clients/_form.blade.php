@@ -14,7 +14,7 @@
 </div>
 <div class="form-group">
     {!! Form::label('Endereço', 'Endereço:') !!}
-    {!! Form::textarea ('user[email]', null, ['class'=>'form-control']) !!}
+    {!! Form::textarea ('address', null, ['class'=>'form-control']) !!}
 </div>
 <div class="form-group">
     {!! Form::label('Cidade', 'Cidade:') !!}
